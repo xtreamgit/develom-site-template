@@ -9,7 +9,13 @@ func initializeRoutes() {
 	router.Use(setUserStatus())
 
 	// Handle the index route
+	// Calls the showIndexPage function in the "handlers.article.go" file.
+	// Since there is no other data to display at this point, the showIndexPage only displays
+	// what the getAllArticles function returns.
+
 	router.GET("/", showIndexPage)
+
+	router.GET("/articles", showArticlesPage)
 
 	// Group user related routes together
 	userRoutes := router.Group("/u")
@@ -40,6 +46,9 @@ func initializeRoutes() {
 	// Group article related routes together
 	articleRoutes := router.Group("/article")
 	{
+		// Handle GET requests at /article/view/some_article_id
+		//articleRoutes.GET("/view/articles_list", getArticle)
+
 		// Handle GET requests at /article/view/some_article_id
 		articleRoutes.GET("/view/:article_id", getArticle)
 

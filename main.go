@@ -9,6 +9,10 @@
 // If it is not set correctly, I will get undefined functions.
 // main.go
 
+// Todo: When running for the first time, need to clear the browser cache!
+// Idea: I can create a function that clears the cache while in debug mode
+//
+
 package main
 
 import (
@@ -43,19 +47,16 @@ func main() {
 // Hector: Since we don't know when we could use the json or xml format and it really doesn't
 // hurt to have the render function otherwise, we'll keep the following case statement for now.
 // Note: The render function is called by handlers.article.go
+
+// gin.H is a shortcut for map[string]interface{}
+// Function render requires:
+// *gin.Context -- Context
+// data gin.H -- Data
+// template -- Template Name String
 func render(c *gin.Context, data gin.H, templateName string) {
 	loggedInInterface, _ := c.Get("is_logged_in")
 	data["is_logged_in"] = loggedInInterface.(bool)
 
-	switch c.Request.Header.Get("Accept") {
-	case "application/json":
-		// Respond with JSON
-		c.JSON(http.StatusOK, data["payload"])
-	case "application/xml":
-		// Respond with XML
-		c.XML(http.StatusOK, data["payload"])
-	default:
-		// Respond with HTML
-		c.HTML(http.StatusOK, templateName, data)
-	}
+	c.HTML(http.StatusOK, templateName, data)
+
 }

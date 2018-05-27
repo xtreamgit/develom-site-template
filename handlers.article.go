@@ -10,12 +10,25 @@ import (
 )
 
 func showIndexPage(c *gin.Context) {
+	// Call the render function with the name of the template to render
+	// Removed the payload value from gin.H for index.html
+
+	render(c, gin.H{
+		"title":"Develom.com",},"index.html")
+}
+
+func showArticlesPage(c *gin.Context) {
+	// Calls the getAllArticles function in the models.article.go
+	// It receives the list of articles in the models file.
+	// These articles are static at this point.
+	// Ex. 	article{ID: 1, Title: "Article 1", Content: "Article 1 body"},
+
 	articles := getAllArticles()
 
 	// Call the render function with the name of the template to render
 	render(c, gin.H{
-		"title":   "Home Page",
-		"payload": articles}, "index.html")
+		"title":   "All Articles",
+		"payload": articles}, "articles.html")
 }
 
 func showArticleCreationPage(c *gin.Context) {
